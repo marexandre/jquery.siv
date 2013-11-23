@@ -1,0 +1,18 @@
+.siv .imageviewer-wrap {
+    position: relative;
+    width: 660px;
+}
+
+.siv .image-list {
+    margin: 0;
+    padding: 0;
+}
+.siv .image-list li {
+    display: inline-block;
+    position: absolute;
+}
+
+.siv .image-list img {
+    width: 100%;
+    vertical-align:text-bottom
+}
