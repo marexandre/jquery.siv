@@ -15,7 +15,8 @@
      */
     var pluginName = "siv",
         defaults = {
-            debug: false
+            width: 0,
+            height: 0
         };
 
     // constructor
@@ -25,12 +26,69 @@
         this.settings  = $.extend( {}, defaults, this.$element.data(), options );
         this._defaults = defaults;
         this._name     = pluginName;
+        // siv
+        this.imgCount = 0;
+        this.currentIndex = 0;
+        this.$imageList = this.$element.find('.image-list');
+        this.$images  = this.$imageList.find('li');
+        this.$iconNav = this.$element.find('.icon-nav');
+        this.$nextBtn = this.$element.find('.next-btn');
+        this.$prevBtn = this.$element.find('.prev-btn');
 
         this.init();
     }
 
     Plugin.prototype = {
         init: function() {
+
+            var _this = this,
+                $imageList = this.$imageList,
+                $images  = this.$images,
+                $iconNav = this.$iconNav,
+                $nextBtn = this.$nextBtn,
+                $prevBtn = this.$prevBtn;
+
+            this.imgCount = $images.length;
+
+            // Set image list width & height
+            $imageList.css({
+                width : this.settings.width,
+                height: this.settings.height
+            });
+
+            // create icon nav
+            var tmpIconsList = [];
+            for (var i = 0; i < this.imgCount; i++) {
+                tmpIconsList.push( "<a href='#' class='icon-btn'></a>" );
+            }
+            var $iconBtn = null;
+            $iconNav
+                .width($images.length * 20)
+                .append("<div>"+ tmpIconsList.join('') +"</div>")
+                .on('click', 'a', function(e){
+                    e.preventDefault();
+
+                    _this.updateView( $iconBtn.index( $(this) ) );
+                });
+            $iconBtn = $iconNav.find('a');
+        },
+        next: function(){
+            this.currentIndex++;
+            if (this.imgCount < this.currentIndex) {
+                this.currentIndex = 0;
+            }
+            this.updateView( this.currentIndex );
+        },
+        prev: function(){
+            this.currentIndex--;
+            if (this.currentIndex < 0) {
+                this.currentIndex = this.imgCount;
+            }
+            this.updateView( this.currentIndex );
+        },
+        updateView: function( index ){
+            this.$images.hide();
+            $(this.$images[index]).show();
         }
     };
 
