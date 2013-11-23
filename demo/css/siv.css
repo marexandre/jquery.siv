@@ -1,9 +1,10 @@
 .siv .imageviewer-wrap {
     position: relative;
     width: 660px;
+    display: block;
 }
 
-.siv .image-list {
+.siv ul {
     margin: 0;
     padding: 0;
 }
@@ -15,4 +16,23 @@
 .siv .image-list img {
     width: 100%;
     vertical-align:text-bottom
+}
+.siv .icon-nav {
+    margin: 0 auto;
+}
+
+.siv .icon-nav {
+    margin-top: 10px;
+}
+.siv .icon-nav .icon-btn {
+    background: transparent url(../img/siv-unselected.png) no-repeat center center;
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+.siv .icon-nav .icon-btn:hover {
+    background: transparent url(../img/siv-selected.png) no-repeat center center;
+}
+.siv .icon-nav .icon-btn.selected {
+    background: transparent url(../img/siv-selected.png) no-repeat center center;
 }
