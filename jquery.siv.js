@@ -17,7 +17,8 @@
         defaults = {
             width: 0,
             height: 0,
-            fadeInSpeed: 600
+            fadeInSpeed: 600,
+            autoPlay: 0
         };
 
     // constructor
@@ -28,6 +29,7 @@
         this._defaults = defaults;
         this._name     = pluginName;
         // siv
+        this.autoPlayTimer = -1;
         this.zIndex = 1;
         this.imgCount = 0;
         this.currentIndex = 0;
@@ -70,6 +72,9 @@
                 .append("<div>"+ tmpIconsList.join('') +"</div>")
                 .on('click', 'a', function(e){
                     e.preventDefault();
+
+                    _this.autoPlay(true);
+
                     // update selected button
                     $iconNav.find('.selected').removeClass('selected');
                     $(this).addClass('selected');
@@ -80,20 +85,42 @@
 
             _this.$currentElement = $(_this.$images[_this.currentIndex]);
             $iconNav.find('a').eq(0).addClass('selected');
+
+
+            _this.autoPlay();
+        },
+        autoPlay: function( isReset ){
+            var _this = this;
+            if (typeof isReset === 'undefined') { isReset = false; }
+            if (_this.settings.autoPlay !== 0) {
+
+                if (_this.settings.autoPlayTimer !== -1) {
+                    clearTimeout( _this.settings.autoPlayTimer );
+                    _this.settings.autoPlayTimer = -1;
+                }
+
+                var autoPlayFunc = function(){
+                    _this.next();
+                    _this.settings.autoPlayTimer = setTimeout(autoPlayFunc, _this.settings.autoPlay);
+                };
+                _this.settings.autoPlayTimer = setTimeout(autoPlayFunc, _this.settings.autoPlay * (isReset ? 10 : 1));
+            }
         },
         next: function(){
             this.currentIndex++;
-            if (this.imgCount < this.currentIndex) {
+            if (this.imgCount <= this.currentIndex) {
                 this.currentIndex = 0;
             }
-            this.updateView( this.currentIndex );
+            // this.updateView( this.currentIndex );
+            this.$iconNav.find('a').eq( this.currentIndex ).trigger('click');
         },
         prev: function(){
             this.currentIndex--;
             if (this.currentIndex < 0) {
                 this.currentIndex = this.imgCount;
             }
-            this.updateView( this.currentIndex );
+            // this.updateView( this.currentIndex );
+            this.$iconNav.find('a').eq( this.currentIndex ).trigger('click');
         },
         updateView: function( index ){
             var _this = this;
