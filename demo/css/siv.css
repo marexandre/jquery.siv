@@ -1,4 +1,4 @@
-.siv .imageviewer-wrap {
+.siv.imageviewer-wrap {
     position: relative;
     width: 660px;
     display: block;
@@ -35,4 +35,35 @@
 }
 .siv .icon-nav .icon-btn.selected {
     background: transparent url(../img/siv-selected.png) no-repeat center center;
+}
+
+.siv .nav-btn {
+    height: 100%;
+    width: 80px;
+    display: block;
+    position: absolute;
+    z-index: 999;
+    top: 0;
+    background-color: #fee;
+    cursor: pointer;
+
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=0);
+    opacity: 0;
+
+    -webkit-transition: opacity .4s;
+       -moz-transition: opacity .4s;
+         -o-transition: opacity .4s;
+            transition: opacity .4s;
+}
+.siv .nav-btn:hover {
+    filter: progid:DXImageTransform.Microsoft.Alpha(Opacity=100);
+    opacity: 1;
+}
+.siv .next-btn {
+    background: transparent url(../img/siv-next-btn.png) no-repeat center center;
+    right: 0;
+}
+.siv .prev-btn {
+    background: transparent url(../img/siv-prev-btn.png) no-repeat center center;
+    left: 0;
 }
