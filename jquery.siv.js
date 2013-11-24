@@ -108,25 +108,26 @@
             if (typeof isReset === 'undefined') { isReset = false; }
             if (_this.settings.autoPlay !== 0) {
 
-                if (_this.settings.autoPlayTimer !== -1) {
-                    clearTimeout( _this.settings.autoPlayTimer );
-                    _this.settings.autoPlayTimer = -1;
+                if (_this.autoPlayTimer !== -1) {
+                    clearTimeout( _this.autoPlayTimer );
+                    _this.autoPlayTimer = -1;
                 }
 
                 var autoPlayFunc = function(){
+                    _this.autoPlayTimer = -1;
                     _this.next();
-                    _this.settings.autoPlayTimer = setTimeout(autoPlayFunc, _this.settings.autoPlay);
+                    _this.autoPlayTimer = setTimeout(autoPlayFunc, _this.settings.autoPlay);
                 };
-                _this.settings.autoPlayTimer = setTimeout(autoPlayFunc, _this.settings.autoPlay * (isReset ? 10 : 1));
+                _this.autoPlayTimer = setTimeout(autoPlayFunc, _this.settings.autoPlay * (isReset ? 10 : 1));
             }
         },
         resume: function(){
             this.autoPlay();
         },
         stop: function(){
-            if (this.settings.autoPlayTimer !== -1) {
-                clearTimeout( this.settings.autoPlayTimer );
-                this.settings.autoPlayTimer = -1;
+            if (this.autoPlayTimer !== -1) {
+                clearTimeout( this.autoPlayTimer );
+                this.autoPlayTimer = -1;
             }
         },
         //
