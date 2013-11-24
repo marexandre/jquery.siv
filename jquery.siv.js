@@ -85,6 +85,8 @@
                 .on('click', 'a', function(e){
                     e.preventDefault();
 
+                    if ($(this).hasClass('selected')) { return; }
+
                     _this.autoPlay(true);
 
                     // update selected button
@@ -108,13 +110,10 @@
             if (typeof isReset === 'undefined') { isReset = false; }
             if (_this.settings.autoPlay !== 0) {
 
-                if (_this.autoPlayTimer !== -1) {
-                    clearTimeout( _this.autoPlayTimer );
-                    _this.autoPlayTimer = -1;
-                }
+                _this.stop();
 
                 var autoPlayFunc = function(){
-                    _this.autoPlayTimer = -1;
+                    _this.stop();
                     _this.next();
                     _this.autoPlayTimer = setTimeout(autoPlayFunc, _this.settings.autoPlay);
                 };
@@ -148,7 +147,9 @@
             this.show( this.currentIndex );
         },
         show: function( index ){
-            this.$iconNav.find('a').eq( index ).trigger('click');
+            this.$iconNav.find('.selected').removeClass('selected');
+            this.$iconNav.find('a').eq( index ).addClass('selected');
+            this.updateView(index);
         },
         updateView: function( index ){
             var _this = this;
