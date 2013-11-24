@@ -111,16 +111,17 @@
             if (this.imgCount <= this.currentIndex) {
                 this.currentIndex = 0;
             }
-            // this.updateView( this.currentIndex );
-            this.$iconNav.find('a').eq( this.currentIndex ).trigger('click');
+            this.show( this.currentIndex );
         },
         prev: function(){
             this.currentIndex--;
             if (this.currentIndex < 0) {
                 this.currentIndex = this.imgCount;
             }
-            // this.updateView( this.currentIndex );
-            this.$iconNav.find('a').eq( this.currentIndex ).trigger('click');
+            this.show( this.currentIndex );
+        },
+        show: function( index ){
+            this.$iconNav.find('a').eq( index ).trigger('click');
         },
         updateView: function( index ){
             var _this = this;
