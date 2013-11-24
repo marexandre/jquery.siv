@@ -100,6 +100,9 @@
 
             _this.autoPlay();
         },
+        //
+        // auto play functionality
+        //
         autoPlay: function( isReset ){
             var _this = this;
             if (typeof isReset === 'undefined') { isReset = false; }
@@ -117,6 +120,18 @@
                 _this.settings.autoPlayTimer = setTimeout(autoPlayFunc, _this.settings.autoPlay * (isReset ? 10 : 1));
             }
         },
+        resume: function(){
+            this.autoPlay();
+        },
+        stop: function(){
+            if (this.settings.autoPlayTimer !== -1) {
+                clearTimeout( this.settings.autoPlayTimer );
+                this.settings.autoPlayTimer = -1;
+            }
+        },
+        //
+        // navigation functionality
+        //
         next: function(){
             this.currentIndex++;
             if (this.imgCount <= this.currentIndex) {
