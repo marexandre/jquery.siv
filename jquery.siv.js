@@ -57,15 +57,27 @@
 
             // Set image list width & height
             $imageList.css({
-                width : this.settings.width,
-                height: this.settings.height
+                width : _this.settings.width,
+                height: _this.settings.height
             });
+            $nextBtn.height( _this.settings.height );
+            $prevBtn.height( _this.settings.height );
 
             // create icon nav
             var tmpIconsList = [];
             for (var i = 0; i < this.imgCount; i++) {
                 tmpIconsList.push( "<a href='#' class='icon-btn'></a>" );
             }
+
+            $nextBtn.on('click', function(e){
+                e.preventDefault();
+                _this.next();
+            });
+            $prevBtn.on('click', function(e){
+                e.preventDefault();
+                _this.prev();
+            });
+
             var $iconBtn = null;
             $iconNav
                 .width($images.length * 20)
@@ -85,7 +97,6 @@
 
             _this.$currentElement = $(_this.$images[_this.currentIndex]);
             $iconNav.find('a').eq(0).addClass('selected');
-
 
             _this.autoPlay();
         },
@@ -116,7 +127,7 @@
         prev: function(){
             this.currentIndex--;
             if (this.currentIndex < 0) {
-                this.currentIndex = this.imgCount;
+                this.currentIndex = this.imgCount - 1;
             }
             this.show( this.currentIndex );
         },
