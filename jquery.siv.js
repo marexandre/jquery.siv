@@ -107,12 +107,13 @@
                 .stop(true,true)
                 .show()
                 .animate({
-                    'opacity': 1
+                        'opacity': 1
                     },
                     _this.settings.fadeInSpeed,
                     function(){
+                        _this.zIndex = 1;
                         _this.$currentElement.hide().css('z-index', '');
-                        _this.$currentElement = $(_this.$images[index]).css({'opacity': ''});
+                        _this.$currentElement = $(_this.$images[index]).css({'opacity': '', 'zIndex': 1});
                     }
                 );
         }
