@@ -16,7 +16,8 @@
     var pluginName = "siv",
         defaults = {
             width: 0,
-            height: 0
+            height: 0,
+            fadeInSpeed: 600
         };
 
     // constructor
@@ -27,8 +28,10 @@
         this._defaults = defaults;
         this._name     = pluginName;
         // siv
+        this.zIndex = 1;
         this.imgCount = 0;
         this.currentIndex = 0;
+        this.$currentElement = null;
         this.$imageList = this.$element.find('.image-list');
         this.$images  = this.$imageList.find('li');
         this.$iconNav = this.$element.find('.icon-nav');
@@ -67,10 +70,16 @@
                 .append("<div>"+ tmpIconsList.join('') +"</div>")
                 .on('click', 'a', function(e){
                     e.preventDefault();
-
+                    // update selected button
+                    $iconNav.find('.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                    // update image
                     _this.updateView( $iconBtn.index( $(this) ) );
                 });
             $iconBtn = $iconNav.find('a');
+
+            _this.$currentElement = $(_this.$images[_this.currentIndex]);
+            $iconNav.find('a').eq(0).addClass('selected');
         },
         next: function(){
             this.currentIndex++;
@@ -87,8 +96,25 @@
             this.updateView( this.currentIndex );
         },
         updateView: function( index ){
-            this.$images.hide();
-            $(this.$images[index]).show();
+            var _this = this;
+            _this.zIndex++;
+
+            $(this.$images[index])
+                .css({
+                    'z-index': _this.zIndex,
+                    'opacity': 0
+                })
+                .stop(true,true)
+                .show()
+                .animate({
+                    'opacity': 1
+                    },
+                    _this.settings.fadeInSpeed,
+                    function(){
+                        _this.$currentElement.hide().css('z-index', '');
+                        _this.$currentElement = $(_this.$images[index]).css({'opacity': ''});
+                    }
+                );
         }
     };
 
